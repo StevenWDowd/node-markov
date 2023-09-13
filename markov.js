@@ -27,25 +27,30 @@ class MarkovMachine {
    *
    * */
 
+  /**
+   * Uses the instance's words array to generate an object whose keys are
+   * the words and whose values are lists of words that follow the key in
+   * the original text.
+   */
   getChains() {
-    // TODO: implement this!
+    // TODO: Refactor for efficiency. Frequency counter approach.
     const chainResults = {};
     for (const word of this.words) {
       const followerList = [];
       for (let i = 0; i < this.words.length; i++) {
-        if (word === this.words[i]){
+        if (word === this.words[i]) {
           if (i <= this.words.length - 2) {
-          followerList.push(this.words[i + 1]);
-        } else {
-          followerList.push(null);
+            followerList.push(this.words[i + 1]);
+          } else {
+            followerList.push(null);
+          }
         }
-      }
-      chainResults[word] = followerList;
+        chainResults[word] = followerList;
 
+      }
     }
+    return chainResults;
   }
-  return chainResults;
-}
 
 
   /** Return random text from chains, starting at the first word and continuing
@@ -55,20 +60,27 @@ class MarkovMachine {
   // - find a random word from the following-words of that
   // - repeat until reaching the terminal null
 
+  /**
+   * Generates text using the chains on the Markov machine, stopping once it
+   * hits a null value.
+   */
   getText() {
     let current = this.words[0];
+    let text = [];
 
-  while (current) {
-    text.push(current);
-    current = _.sample(random word from chain of current)
+    while (current) {
+      text.push(current);
+      current = _.sample(this.chains[current]);
+    }
+
+    return text.join(' ');
+    //   let text = [];
+
+    //   for (let current of this.words) {
+    //     text.push(current, _.sample(this.chains[current]));
+    //   }
+    //   return text.join(' ');
   }
-  //   let text = [];
-
-  //   for (let current of this.words) {
-  //     text.push(current, _.sample(this.chains[current]));
-  //   }
-  //   return text.join(' ');
-  // }
 
 }
 
